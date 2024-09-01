@@ -55,6 +55,35 @@ public class ProductsRepository extends Connect {
         return null;
     }
 
+    public List<Product> getProductsByCategorie(String categorieName) {
+        try {
+            openConnection();
+            stmt = connection.prepareStatement("SELECT * FROM products WHERE categorie = ?");
+            stmt.setString(1, categorieName);
+            System.out.println("CATEGORIA NOME: " + categorieName);
+            result = stmt.executeQuery();
+            if (result.next()) {
+                List<Product> produtos = new ArrayList<>();
+                Product produto = new Product(result.getString("id"), result.getString("name"), result.getDouble("price"), result.getString("categorie"), result.getString("image"));
+                produtos.add(produto);
+                while (result.next()) {
+                    System.out.println("WTTF: " + result.getString("name"));
+                    produto = new Product(result.getString("id"), result.getString("name"), result.getDouble("price"), result.getString("categorie"), result.getString("image"));
+                    produtos.add(produto);
+                }
+                stmt.close();
+                closeConnection();
+                return produtos;
+            }
+            stmt.close();
+            closeConnection();
+            return null;
+        } catch (Exception e) {
+            System.out.println("ERROO: " + e);
+            return null;
+        }
+    }
+
     public List<Product> getAllProducts(){
         try {
             openConnection();

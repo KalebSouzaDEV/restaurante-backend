@@ -44,6 +44,15 @@ public class ProductsController {
         return new ResponseEntity<String>("Produto não foi encontrado", HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/categorie/{categorieName}")
+    public ResponseEntity<?> getProductsByCategorie(@PathVariable String categorieName) {
+        Response<List<Product>> produtos = productsService.getProductsByCategorie(categorieName);
+        if (!produtos.hasMessage()) {
+            return new ResponseEntity<>(produtos.getData(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(produtos.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
     @PutMapping("/{productID}")
     public ResponseEntity<?> editProduct(@RequestBody Product product, @PathVariable String productID){
         product.setId(productID);

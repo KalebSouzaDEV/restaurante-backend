@@ -39,6 +39,19 @@ public class ProductsService {
         }
         return null;
     }
+
+    public Response<List<Product>> getProductsByCategorie(String categorieName) {
+        if (categoriesRepository.getCategorieByName(categorieName) != null) {
+            List<Product> productsList = productsRepository.getProductsByCategorie(categorieName);
+            if (productsList != null) {
+                return new Response<>(productsList);
+            }
+        } else {
+            return new Response<>("Categoria não existente");
+        }
+        return new Response<>("Falha ao buscar produtos");
+    }
+
     public List<Product> getAllProducts(){
         List<Product> productsList = productsRepository.getAllProducts();
         if (productsList != null) {
