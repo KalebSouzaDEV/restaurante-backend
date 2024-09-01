@@ -33,6 +33,27 @@ public class CategoriesRepository extends Connect {
         }
     }
 
+    public Categorie getCategorieByName(String name) {
+        try {
+            openConnection();
+            stmt = connection.prepareStatement("SELECT * FROM categories WHERE name = ?");
+            stmt.setString(1, name);
+            result = stmt.executeQuery();
+            if (result.next()){
+                Categorie categorie = new Categorie(result.getString("id"), result.getString("name"), result.getTimestamp("createdAt"));
+                stmt.close();
+                closeConnection();
+                return categorie;
+            }
+            stmt.close();
+            closeConnection();
+            return null;
+        } catch (Exception e) {
+            System.out.println("ERROO " + e);
+            return null;
+        }
+    }
+
     public Boolean createCategorie(Categorie categorie) {
         try {
             openConnection();

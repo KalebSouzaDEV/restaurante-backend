@@ -2,7 +2,10 @@ package com.portfolioKaleb.restaurante.service;
 
 
 import com.portfolioKaleb.restaurante.entity.Product;
+import com.portfolioKaleb.restaurante.entity.Response;
+import com.portfolioKaleb.restaurante.repository.CategoriesRepository;
 import com.portfolioKaleb.restaurante.repository.ProductsRepository;
+import org.apache.logging.log4j.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +17,19 @@ import java.util.Map;
 public class ProductsService {
     @Autowired
     private ProductsRepository productsRepository;
+    @Autowired
+    private CategoriesRepository categoriesRepository;
 
-    public Boolean createProduct(Product product) throws Exception {
-        if (productsRepository.createProduct(product.getName(), product.getPrice(), product.getCategorie(), product.getImage())) {
-            return true;
+
+    public Response<Boolean> createProduct(Product product) throws Exception {
+        if (categoriesRepository.getCategorieByName(product.getCategorie()) != null) {
+            if (productsRepository.createProduct(product.getName(), product.getPrice(), product.getCategorie(), product.getImage())) {
+                return new Response<>(true);
+            }
+        } else  {
+            return new Response<>("Categoria não encontrada");
         }
-        return false;
+        return new Response<>("Falha ao criar produto.");
     }
 
     public Product getProductByID(String productID){
@@ -32,14 +42,12 @@ public class ProductsService {
     public List<Product> getAllProducts(){
         List<Product> productsList = productsRepository.getAllProducts();
         if (productsList != null) {
-            System.out.println(String.valueOf(productsList) +  " UAII");
             return productsList;
         }
         return null;
     }
 
-    public Product editProduct(Product product){
-
+    public Response<Product> editProduct(Product product){
 
         Map<String, Object> updatesList = new HashMap<>();
         updatesList.put("id", product.getId());
@@ -50,7 +58,11 @@ public class ProductsService {
             updatesList.put("price", product.getPrice());
         }
         if (product.getCategorie() != null) {
-            updatesList.put("categorie", product.getCategorie());
+            if (categoriesRepository.getCategorieByName(product.getCategorie()) != null) {
+                updatesList.put("categorie", product.getCategorie());
+            } else {
+                return new Response<>("Categoria não encontrada...");
+            }
         }
         if (product.getImage() != null) {
             updatesList.put("image", product.getImage());
@@ -58,7 +70,7 @@ public class ProductsService {
 
         Product newProduct = productsRepository.editProduct(updatesList);
         if (newProduct != null){
-            return newProduct;
+            return new Response<>(newProduct);
         }
         return null;
     }

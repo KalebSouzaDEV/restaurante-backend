@@ -1,6 +1,7 @@
 package com.portfolioKaleb.restaurante.controller;
 
 import com.portfolioKaleb.restaurante.entity.Product;
+import com.portfolioKaleb.restaurante.entity.Response;
 import com.portfolioKaleb.restaurante.service.ProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,11 +19,11 @@ public class ProductsController {
 
     @PostMapping
     public ResponseEntity<String> createProduct(@RequestBody Product product) throws Exception {
-        Boolean retorno = this.productsService.createProduct(product);
-        if (retorno) {
+        Response<Boolean> retorno = this.productsService.createProduct(product);
+        if (!retorno.hasMessage()) {
             return new ResponseEntity<String>("Produto criado com sucesso", HttpStatus.OK);
         }
-        return new ResponseEntity<String>("Produto não foi criado", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<String>(retorno.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping
@@ -46,11 +47,11 @@ public class ProductsController {
     @PutMapping("/{productID}")
     public ResponseEntity<?> editProduct(@RequestBody Product product, @PathVariable String productID){
         product.setId(productID);
-        Product newProduct = productsService.editProduct(product);
-        if (newProduct != null) {
-            return new ResponseEntity<Product>(newProduct, HttpStatus.OK);
+        Response<Product> newProduct = productsService.editProduct(product);
+        if (!newProduct.hasMessage()) {
+            return new ResponseEntity<Product>(newProduct.getData(), HttpStatus.OK);
         }
-        return new ResponseEntity<String>("Produto não foi encontrado", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<String>(newProduct.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{productID}")
