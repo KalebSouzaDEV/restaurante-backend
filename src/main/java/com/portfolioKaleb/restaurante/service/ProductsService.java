@@ -22,14 +22,15 @@ public class ProductsService {
 
 
     public Response<Boolean> createProduct(Product product) throws Exception {
+        System.out.println("VSFFFFFFD : " + product.getCategorie());
         if (categoriesRepository.getCategorieByName(product.getCategorie()) != null) {
             if (productsRepository.createProduct(product.getName(), product.getPrice(), product.getCategorie(), product.getImage())) {
-                return new Response<>(true);
+                return new Response<>(true, null);
             }
         } else  {
-            return new Response<>("Categoria não encontrada");
+            return new Response<>(null, "Categoria não encontrada");
         }
-        return new Response<>("Falha ao criar produto.");
+        return new Response<>(null, "Falha ao criar produto.");
     }
 
     public Product getProductByID(String productID){
@@ -41,15 +42,17 @@ public class ProductsService {
     }
 
     public Response<List<Product>> getProductsByCategorie(String categorieName) {
+        System.out.println("AMOLADRO BOM");
         if (categoriesRepository.getCategorieByName(categorieName) != null) {
+            System.out.println("AMOLADRO BO testeM");
             List<Product> productsList = productsRepository.getProductsByCategorie(categorieName);
             if (productsList != null) {
-                return new Response<>(productsList);
+                return new Response<>(productsList, null);
             }
         } else {
-            return new Response<>("Categoria não existente");
+            return new Response<>(null, "Categoria não existente");
         }
-        return new Response<>("Falha ao buscar produtos");
+        return new Response<>(null,"Falha ao buscar produtos");
     }
 
     public List<Product> getAllProducts(){
@@ -74,7 +77,7 @@ public class ProductsService {
             if (categoriesRepository.getCategorieByName(product.getCategorie()) != null) {
                 updatesList.put("categorie", product.getCategorie());
             } else {
-                return new Response<>("Categoria não encontrada...");
+                return new Response<>(null, "Categoria não encontrada...");
             }
         }
         if (product.getImage() != null) {
@@ -83,7 +86,7 @@ public class ProductsService {
 
         Product newProduct = productsRepository.editProduct(updatesList);
         if (newProduct != null){
-            return new Response<>(newProduct);
+            return new Response<>(newProduct, null);
         }
         return null;
     }

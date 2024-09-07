@@ -7,10 +7,8 @@ public class Response<T> {
     private T data;
     private String message;
 
-    public Response(T data) {
+    public Response(T data, String message) {
         this.data = data;
-    }
-    public Response(String message) {
         this.message = message;
     }
 

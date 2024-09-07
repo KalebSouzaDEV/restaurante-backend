@@ -56,32 +56,36 @@ public class ProductsRepository extends Connect {
     }
 
     public List<Product> getProductsByCategorie(String categorieName) {
+        List<Product> produtos = new ArrayList<>();
+
         try {
             openConnection();
+            System.out.println("teste1");
             stmt = connection.prepareStatement("SELECT * FROM products WHERE categorie = ?");
+            System.out.println("teste2");
             stmt.setString(1, categorieName);
             System.out.println("CATEGORIA NOME: " + categorieName);
             result = stmt.executeQuery();
-            if (result.next()) {
-                List<Product> produtos = new ArrayList<>();
+            while (result.next()) {
+                System.out.println("WTTF: " + result.getString("name"));
                 Product produto = new Product(result.getString("id"), result.getString("name"), result.getDouble("price"), result.getString("categorie"), result.getString("image"));
                 produtos.add(produto);
-                while (result.next()) {
-                    System.out.println("WTTF: " + result.getString("name"));
-                    produto = new Product(result.getString("id"), result.getString("name"), result.getDouble("price"), result.getString("categorie"), result.getString("image"));
-                    produtos.add(produto);
-                }
-                stmt.close();
-                closeConnection();
-                return produtos;
             }
-            stmt.close();
-            closeConnection();
-            return null;
         } catch (Exception e) {
             System.out.println("ERROO: " + e);
             return null;
+        } finally {
+            // Bloco finally para garantir que os recursos sejam sempre fechados
+            try {
+                if (result != null && !result.isClosed()) result.close();  // Fecha o ResultSet, se estiver aberto
+                if (stmt != null && !stmt.isClosed()) stmt.close();  // Fecha o PreparedStatement, se estiver aberto
+                if (connection != null && !connection.isClosed()) closeConnection();  // Fecha a conexão
+                System.out.println("Recursos fechados.");
+            } catch (Exception e) {
+                System.out.println("Erro ao fechar recursos: " + e);  // Captura qualquer erro ao fechar os recursos
+            }
         }
+        return produtos;
     }
 
     public List<Product> getAllProducts(){
@@ -101,12 +105,18 @@ public class ProductsRepository extends Connect {
                 produto.setImage(result.getString("image"));
                 produtos.add(produto);
             }
-            stmt.close();
-            closeConnection();
             return produtos;
         } catch (Exception e) {
             System.out.println("DEU ERRO AQUI2: " + e);
             return null;
+        } finally {
+            try {
+                if (result != null) result.close();
+                if (stmt != null) stmt.close();
+                if (connection != null) closeConnection();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

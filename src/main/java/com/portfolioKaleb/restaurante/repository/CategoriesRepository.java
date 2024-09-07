@@ -20,16 +20,24 @@ public class CategoriesRepository extends Connect {
             result = stmt.executeQuery();
 
             List<Categorie> categories = new ArrayList<>();
-            while (result.next()) {
-                Categorie novaCategoria = new Categorie(result.getString("id"), result.getString("name"), result.getTimestamp("createdAt"));
-                categories.add(novaCategoria);
+            if (result.next()) {
+                while (result.next()) {
+                    Categorie novaCategoria = new Categorie(result.getString("id"), result.getString("name"), result.getTimestamp("createdAt"));
+                    categories.add(novaCategoria);
+                }
             }
-            stmt.close();
-            closeConnection();
             return categories;
         } catch (Exception e) {
             System.out.println("ERRO: " + e);
             return null;
+        } finally {
+            try {
+                if (result != null) result.close();
+                if (stmt != null) stmt.close();
+                if (connection != null) closeConnection();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -37,6 +45,7 @@ public class CategoriesRepository extends Connect {
         try {
             openConnection();
             stmt = connection.prepareStatement("SELECT * FROM categories WHERE name = ?");
+            System.out.println("CATEGORIA VEM MMM: " + name);
             stmt.setString(1, name);
             result = stmt.executeQuery();
             if (result.next()){

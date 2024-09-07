@@ -19,6 +19,7 @@ public class ProductsController {
 
     @PostMapping
     public ResponseEntity<String> createProduct(@RequestBody Product product) throws Exception {
+        System.out.println("PRODUTO RECEBIDO: " + product);
         Response<Boolean> retorno = this.productsService.createProduct(product);
         if (!retorno.hasMessage()) {
             return new ResponseEntity<String>("Produto criado com sucesso", HttpStatus.OK);
