@@ -20,11 +20,9 @@ public class CategoriesRepository extends Connect {
             result = stmt.executeQuery();
 
             List<Categorie> categories = new ArrayList<>();
-            if (result.next()) {
-                while (result.next()) {
-                    Categorie novaCategoria = new Categorie(result.getString("id"), result.getString("name"), result.getTimestamp("createdAt"));
-                    categories.add(novaCategoria);
-                }
+            while (result.next()) {
+                Categorie novaCategoria = new Categorie(result.getString("id"), result.getString("name"), result.getTimestamp("createdAt"));
+                categories.add(novaCategoria);
             }
             return categories;
         } catch (Exception e) {
