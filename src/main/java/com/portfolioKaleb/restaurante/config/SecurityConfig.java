@@ -59,6 +59,7 @@ public class SecurityConfig {
         System.out.println("VAI SI FUDERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR: \n" + publicKeyResource + "\n " + privateKeyResource + "\n VAI SI FUDERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
         this.publicKey = loadPublicKey(publicKeyResource);
         this.privateKey = loadPrivateKey(privateKeyResource);
+        System.out.println("TROCARIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA:: \n" + this.publicKey  + "\n" + this.privateKey);
     }
 
     private RSAPublicKey loadPublicKey(Resource resource) throws Exception {
