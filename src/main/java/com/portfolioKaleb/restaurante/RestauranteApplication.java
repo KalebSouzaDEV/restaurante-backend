@@ -13,11 +13,9 @@ public class RestauranteApplication {
 
 	public static void main(String[] args) {
 		Flyway flyway = Flyway.configure()
-				.dataSource("jdbc:postgresql://junction.proxy.rlwy.net:30153/railway", "postgres", "OTLFCJYPNZFdsuHctuDajGlBNXmFcbnM")
-				.cleanDisabled(false)
+				.dataSource(System.getenv("DATABASE_URL"), System.getenv("DATABASE_USER"), System.getenv("DATABASE_PASSWORD"))
 				.baselineOnMigrate(true)
 				.load();
-		flyway.clean();
 		flyway.migrate();
 		SpringApplication.run(RestauranteApplication.class, args);
 	}

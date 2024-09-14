@@ -16,9 +16,9 @@ public class Connect {
 
 
     public void openConnection() throws Exception {
-        String url = "jdbc:postgresql://junction.proxy.rlwy.net:30153/railway";
-        String user = "postgres";
-        String password = "OTLFCJYPNZFdsuHctuDajGlBNXmFcbnM";
+        String url = System.getenv("DATABASE_URL");
+        String user = System.getenv("DATABASE_USER");
+        String password = System.getenv("DATABASE_PASSWORD");
         try {
             Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(url, user, password);
