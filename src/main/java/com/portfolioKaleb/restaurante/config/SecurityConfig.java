@@ -58,6 +58,8 @@ public class SecurityConfig {
     public void init() throws Exception {
         System.out.println("VAI SI FUDERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR: \n" + publicKeyResource + "\n " + privateKeyResource + "\n VAI SI FUDERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
         this.publicKey = loadPublicKey();
+        System.out.println("222TROCARIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA:: \n" + this.publicKey  + "\n" + this.privateKey);
+
         this.privateKey = loadPrivateKey();
         System.out.println("TROCARIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA:: \n" + this.publicKey  + "\n" + this.privateKey);
     }
@@ -69,7 +71,7 @@ public class SecurityConfig {
         X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
         System.out.println("public4");
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-        System.out.println("public5");
+        System.out.println("public5: " +  keyFactory.generatePublic(spec));
         return (RSAPublicKey) keyFactory.generatePublic(spec);
     }
 
