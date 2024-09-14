@@ -63,27 +63,37 @@ public class SecurityConfig {
     }
 
     private RSAPublicKey loadPublicKey(Resource resource) throws Exception {
+        System.out.println("public1");
         String key = new String(Files.readAllBytes(resource.getFile().toPath()));
         key = key.replaceAll("-----BEGIN PUBLIC KEY-----", "")
                 .replaceAll("-----END PUBLIC KEY-----", "")
                 .replaceAll("\\s", ""); // Remove newlines and spaces
+        System.out.println("public2" + key);
 
         byte[] keyBytes = Base64.getDecoder().decode(key);
+        System.out.println("public3");
         X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
+        System.out.println("public4");
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        System.out.println("public5");
         return (RSAPublicKey) keyFactory.generatePublic(spec);
     }
 
     private RSAPrivateKey loadPrivateKey(Resource resource) throws Exception {
+        System.out.println("private1");
         String key = new String(Files.readAllBytes(resource.getFile().toPath()));
+        System.out.println("private2");
         key = key.replaceAll("-----BEGIN PRIVATE KEY-----", "")
                 .replaceAll("-----END PRIVATE KEY-----", "")
                 .replaceAll("\\s", ""); // Remove newlines and spaces
         System.out.println("VAI SI FUDER PORRAA2:::::::::::::: " + key);
-
+        System.out.println("private3");
         byte[] keyBytes = Base64.getDecoder().decode(key);
+        System.out.println("private4");
         PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
+        System.out.println("private5");
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        System.out.println("private6");
         return (RSAPrivateKey) keyFactory.generatePrivate(spec);
     }
 
