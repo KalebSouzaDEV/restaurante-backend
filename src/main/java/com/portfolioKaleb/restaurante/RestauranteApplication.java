@@ -13,10 +13,12 @@ public class RestauranteApplication {
 
 	public static void main(String[] args) {
 		Flyway flyway = Flyway.configure()
-				.dataSource("jdbc:postgresql://localhost:5432/restaurante", "postgres", "123456")
+				.dataSource("jdbc:postgresql://junction.proxy.rlwy.net:30153/railway\n", "postgres", "OTLFCJYPNZFdsuHctuDajGlBNXmFcbnM")
+				.baselineOnMigrate(true)
 				.load();
 		flyway.migrate();
 		SpringApplication.run(RestauranteApplication.class, args);
 	}
+
 
 }

@@ -13,10 +13,12 @@ public class Connect {
     public ResultSet result;
     public CallableStatement call;
 
+
+
     public void openConnection() throws Exception {
-        String url = "jdbc:postgresql://localhost:5432/restaurante";
+        String url = "jdbc:postgresql://junction.proxy.rlwy.net:30153/railway";
         String user = "postgres";
-        String password = "123456";
+        String password = "OTLFCJYPNZFdsuHctuDajGlBNXmFcbnM";
         try {
             Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(url, user, password);
