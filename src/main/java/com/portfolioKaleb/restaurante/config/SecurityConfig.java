@@ -56,6 +56,7 @@ public class SecurityConfig {
 
     @PostConstruct
     public void init() throws Exception {
+        System.out.println("VAI SI FUDERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR: \n" + publicKeyResource + "\n " + privateKeyResource + "\n VAI SI FUDERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
         this.publicKey = loadPublicKey(publicKeyResource);
         this.privateKey = loadPrivateKey(privateKeyResource);
     }
