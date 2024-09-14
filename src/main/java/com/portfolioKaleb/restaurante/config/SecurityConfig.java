@@ -63,7 +63,6 @@ public class SecurityConfig {
         KeyPair kp = kpg.generateKeyPair();
         this.publicKey = (RSAPublicKey) kp.getPublic();
         this.privateKey = (RSAPrivateKey) kp.getPrivate();
-        System.out.println("MEU CUZINNNNNNN: \n" + this.publicKey + "\n" + this.privateKey);
     }
 
     @Bean
