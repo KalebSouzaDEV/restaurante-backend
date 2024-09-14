@@ -36,9 +36,9 @@ public class CategoriesController {
         return new ResponseEntity<String>("Falha ao criar categoria", HttpStatus.BAD_REQUEST);
     }
 
-    @DeleteMapping
-    public ResponseEntity<String> deleteCategorie(@RequestBody Categorie categorie) {
-        boolean isDeleted = categoriesService.deleteCategorie(categorie);
+    @DeleteMapping("/{categorieName}")
+    public ResponseEntity<String> deleteCategorie(@PathVariable String categorieName) {
+        boolean isDeleted = categoriesService.deleteCategorie(categorieName);
         if (isDeleted) {
             return new ResponseEntity<String>("Deletada com sucesso", HttpStatus.OK);
         }

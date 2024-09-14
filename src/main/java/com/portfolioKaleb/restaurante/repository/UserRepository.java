@@ -27,7 +27,7 @@ public class UserRepository extends Connect {
             if (result.next()) {
                 Role role = Role.Values.getRoleByName(result.getString("role"));
                 roles.add(role);
-                User user = new User(result.getString("id"), result.getString("login"), result.getString("password"), roles);
+                User user = new User(result.getString("id"), result.getString("login"), result.getString("password"),  result.getString("nome"), result.getString("phone"), result.getString("address"), roles);
                 if (user.isLoginCorrect(loginRequest, bCryptPasswordEncoder)) {
                     return user;
                 } else {
@@ -55,10 +55,11 @@ public class UserRepository extends Connect {
             if (result.next()) {
                 Role role = Role.Values.getRoleByName(result.getString("role"));
                 roles.add(role);
-                User user = new User(result.getString("id"), result.getString("login"), result.getString("password"), roles);
+                User user = new User(result.getString("id"), result.getString("login"), result.getString("password"),  result.getString("nome"), result.getString("phone"), result.getString("address"), roles);
                 return user;
             } else {
-                throw new BadCredentialsException("Usuário ou senha incorreta");
+                System.out.println("Nenhum usuário encontrado");
+                return null;
             }
         } catch (Exception e) {
             System.out.println("Erro 0001: " + e);
@@ -69,16 +70,20 @@ public class UserRepository extends Connect {
 
     public Boolean createUser(User user, boolean isAdmin) {
         try {
-            stmt = connection.prepareStatement("INSERT INTO users VALUES (?, ?, ?, ?)");
+            stmt = connection.prepareStatement("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?)");
             stmt.setString(1, user.getId());
             stmt.setString(2, user.getLogin());
             stmt.setString(3, user.getPassword());
+            stmt.setString(5, user.getNome());
+            stmt.setString(6, user.getPhone());
+            stmt.setString(7, user.getAddress());
             stmt.setString(4, isAdmin ? "admin" : "client");
             stmt.executeUpdate();
             stmt.close();
             closeConnection();
             return true;
         } catch (Exception e) {
+            System.out.println("Erro 000056: " + e);
             return false;
         }
     }
@@ -92,7 +97,7 @@ public class UserRepository extends Connect {
             while (result.next()) {
                 Role role = Role.Values.getRoleByName(result.getString("role"));
 
-                users.add(new User(result.getString("id"), result.getString("login"), result.getString("password"), Set.of(role)));
+                users.add(new User(result.getString("id"), result.getString("login"), result.getString("password"),  result.getString("nome"), result.getString("phone"), result.getString("address"), Set.of(role)));
             }
             return users;
         } catch (Exception e) {

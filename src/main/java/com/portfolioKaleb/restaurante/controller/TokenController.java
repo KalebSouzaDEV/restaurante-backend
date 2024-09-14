@@ -34,6 +34,7 @@ public class TokenController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         var user = userRepository.logInUser(loginRequest.login(), loginRequest, this.bCryptPasswordEncoder);
+        System.out.println("Veio user: " + user);
         if (user != null) {
             var expiresIn = 300L; // Tempo que o token vai expirar
             var now = Instant.now();
@@ -48,10 +49,11 @@ public class TokenController {
                     .expiresAt(now.plusSeconds(expiresIn))
                     .issuedAt(now)
                     .claim("scope", scopes)
+                    .claim("name", user.getNome())
                     .build();
 
             String jwtValue = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
-            return new ResponseEntity<>(new LoginResponse(jwtValue, expiresIn), HttpStatus.OK);
+            return new ResponseEntity<>(new LoginResponse(jwtValue, expiresIn, user.getRoles()), HttpStatus.OK);
         }
         return new ResponseEntity<>("Erro ao se logar", HttpStatus.BAD_REQUEST);
     }

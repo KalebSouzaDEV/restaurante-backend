@@ -22,8 +22,8 @@ public class CategoriesService {
         return categoriesRepository.createCategorie(categorie);
     }
 
-    public Boolean deleteCategorie(Categorie categorie) {
-        return categoriesRepository.deleteCategorie(categorie);
+    public Boolean deleteCategorie(String categorieName) {
+        return categoriesRepository.deleteCategorie(categorieName);
     }
 
     public Categorie editCategorie(String categorieName, Categorie categorie) {

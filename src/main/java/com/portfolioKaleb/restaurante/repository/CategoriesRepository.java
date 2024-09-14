@@ -80,11 +80,11 @@ public class CategoriesRepository extends Connect {
         }
     }
 
-    public Boolean deleteCategorie(Categorie categorie) {
+    public Boolean deleteCategorie(String categorieName) {
         try {
             openConnection();
             stmt = connection.prepareStatement("DELETE FROM categories WHERE name = ?");
-            stmt.setString(1, categorie.getName());
+            stmt.setString(1, categorieName);
             stmt.executeUpdate();
             stmt.close();
             closeConnection();

@@ -33,7 +33,7 @@ public class UserService {
 
         Role role = Role.Values.getRoleByName("client");
 
-        User newUser = new User(UUID.randomUUID().toString(), user.login(), passwordEncoder.encode(user.password()), Set.of(role));
+        User newUser = new User(UUID.randomUUID().toString(), user.login(), passwordEncoder.encode(user.password()), user.nome(), user.phone(), user.address(), Set.of(role));
         userRepository.createUser(newUser, false);
         return new Response<>("Usuário criado com sucesso", null);
     }

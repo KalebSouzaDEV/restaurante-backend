@@ -29,8 +29,9 @@ public class AdminUserConfig implements CommandLineRunner {
         if (userAdmin != null) {
             System.out.println("Usuário já cadastrado");
         } else {
+            System.out.println("Vem aq nao ?");
             Role role = Role.Values.getRoleByName("admin");
-            User user = new User(UUID.randomUUID().toString(),"admin", passwordEncoder.encode("123456"), Set.of(role));
+            User user = new User(UUID.randomUUID().toString(),"admin", passwordEncoder.encode("123456"), "admin", "(00) 0000-0000", "Endereço Comercial", Set.of(role));
             userRepository.createUser(user, true);
         }
     }

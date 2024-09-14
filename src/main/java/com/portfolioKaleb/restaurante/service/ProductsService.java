@@ -74,6 +74,7 @@ public class ProductsService {
             updatesList.put("price", product.getPrice());
         }
         if (product.getCategorie() != null) {
+            System.out.println("MEU OVO:" + product.getCategorie());
             if (categoriesRepository.getCategorieByName(product.getCategorie()) != null) {
                 updatesList.put("categorie", product.getCategorie());
             } else {

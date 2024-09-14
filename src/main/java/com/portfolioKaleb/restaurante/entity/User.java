@@ -15,6 +15,9 @@ public class User {
     private String id;
     private String login;
     private String password;
+    private String nome;
+    private String phone;
+    private String address;
     private Set<Role> roles;
 
     public boolean isLoginCorrect(LoginRequest loginRequest, PasswordEncoder passwordEncoder) {

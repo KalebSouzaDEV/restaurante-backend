@@ -134,6 +134,7 @@ public class ProductsRepository extends Connect {
             sqlCommand.setLength(sqlCommand.length() - 2);
             sqlCommand.append(" WHERE id = ?");
 
+            System.out.println("PQP EM CRISTOVALDO: " + sqlCommand.toString());
             openConnection();
             stmt = connection.prepareStatement(sqlCommand.toString());
             int indexKey = 1;
