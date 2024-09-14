@@ -59,7 +59,7 @@ public class SecurityConfig {
     @PostConstruct
     public void init() throws Exception {
         KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA");
-        kpg.initialize(1024);
+        kpg.initialize(2048);
         KeyPair kp = kpg.generateKeyPair();
         this.publicKey = (RSAPublicKey) kp.getPublic();
         this.privateKey = (RSAPrivateKey) kp.getPrivate();
