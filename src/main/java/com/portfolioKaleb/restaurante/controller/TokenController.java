@@ -5,6 +5,7 @@ import com.portfolioKaleb.restaurante.controller.dto.LoginResponse;
 import com.portfolioKaleb.restaurante.entity.Role;
 import com.portfolioKaleb.restaurante.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
